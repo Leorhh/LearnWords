@@ -1,17 +1,51 @@
+// src/router/index.ts
+
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '@/views/Home.vue'
-import Login from '@/views/Login.vue'
-import Word from '@/views/Word.vue' // 引入背单词页面
+
+// 使用懒加载方式引入页面组件
+const Home = () => import('@/views/Home.vue')
+const Login = () => import('@/views/Login.vue')
+const Word = () => import('@/views/Word.vue') // 背单词页面
+const WordLookup = () => import('@/views/WordLookup.vue')
+const StudentWords = () => import('@/views/StudentWords.vue')
+const SelectWords = () => import('@/views/SelectWords.vue')
 
 const routes = [
-  { path: '/', name: 'Home', component: Home },
-  { path: '/login', name: 'Login', component: Login },
-  { path: '/word', name: 'Word', component: Word }
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
+  {
+    path: '/word',
+    name: 'Word',
+    component: Word,
+  },
+  {
+    path: '/select-words',
+    name: 'SelectWords',
+    component: SelectWords,
+  },
+  {
+    path: '/word-lookup',
+    name: 'WordLookup',
+    component: WordLookup,
+  },
+  {
+    path: '/student-words',
+    name: 'StudentWords',
+    component: StudentWords,
+  },
 ]
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
 })
 
 export default router

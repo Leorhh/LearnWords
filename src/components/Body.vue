@@ -15,9 +15,9 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 const buttons = [
-    { type: '', text: '背单词', path: '/word' },
-    { type: 'primary', text: '查单词', path: '' }, // 可以根据需要设置路径
-    { type: 'success', text: '学生词', path: '' },
+    { type: '', text: '背单词', path: '/select-words' },
+    { type: 'primary', text: '查单词', path: '/word-lookup' }, // 可以根据需要设置路径
+    { type: 'success', text: '学生词', path: '/student-words' },
 ] as const;
 
 const handleButtonClick = (path: string) => {

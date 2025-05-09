@@ -20,7 +20,7 @@
             </el-sub-menu>
         </el-sub-menu>
         <el-menu-item index="3" class="actions">
-            <el-button type="primary" @click="goToLogin">登录</el-button>
+            <el-button type="primary" @click="goToLogin">登录/注册</el-button>
         </el-menu-item>
     </el-menu>
 </template>

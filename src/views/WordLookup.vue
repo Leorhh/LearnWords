@@ -33,8 +33,14 @@
       <!-- 错误提示 -->
       <el-alert v-if="error" :title="error" type="error" show-icon />
 
+      <!-- --------------------- 结果展示 --------------------- -->
+
+      <!-- 未查询 -->
+      <div v-if="!result" class="result-section">
+      </div>
+
       <!-- 查询结果 -->
-      <div v-show="result && result.word !== '未找到结果'" class="result-section">
+      <div v-else-if="result.word !== '未找到结果'" class="result-section">
         <el-card shadow="hover" class="word-card">
           <h3>{{ result?.word }}</h3>
           <p v-if="result?.phonetic">音标: {{ result?.phonetic }}</p>
@@ -53,7 +59,9 @@
       </div>
 
       <!-- 无结果 -->
-      <el-empty v-if="result && result.word === '未找到结果'" description="未找到相关解释"></el-empty>
+      <el-empty v-else description="未找到相关解释"></el-empty>
+
+      <!-- --------------------- 结果展示 END --------------------- -->
 
       <!-- 历史记录 -->
       <div v-if="history.length > 0" class="history-section">
@@ -115,10 +123,11 @@ const translate = async () => {
       }
     })
 
-    const data = response.data
+    const { data } = response;
 
-    if (data.success) {
-      result.value = data.result
+    if (data.result) {
+      result.value = { word: data.result };
+      /* append search query to history */
       if (!history.value.includes(trimmedWord)) {
         history.value.unshift(trimmedWord)
         if (history.value.length > 10) history.value.pop()

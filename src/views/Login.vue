@@ -1,23 +1,40 @@
 <template>
-    <div class="login-container">
-        <h2>登录 / 注册</h2>
-        <form @submit.prevent="handleSubmit">
-            <div>
-                <label for="username">用户名：</label>
-                <input type="text" id="username" v-model="username" required />
-            </div>
-            <div>
-                <label for="password">密码：</label>
-                <input type="password" id="password" v-model="password" required />
-            </div>
+    <el-container class="login-background">
+        <el-card class="login-card" shadow="hover">
+            <h2 style="text-align: center; margin-bottom: 20px;">登录 / 注册</h2>
 
-            <!-- 提示信息 -->
-            <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
-            <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+            <el-form @submit.prevent="handleSubmit" label-position="top">
+                <!-- 用户名输入 -->
+                <el-form-item label="用户名">
+                    <el-input v-model="username" placeholder="请输入用户名" clearable prefix-icon="User" />
+                </el-form-item>
 
-            <button type="submit">登录 / 注册</button>
-        </form>
-    </div>
+                <!-- 密码输入 -->
+                <el-form-item label="密码">
+                    <el-input v-model="password" type="password" placeholder="请输入密码" show-password clearable
+                        prefix-icon="Lock" />
+                </el-form-item>
+
+                <!-- 成功提示 -->
+                <transition name="fade">
+                    <el-alert v-if="successMessage" :title="successMessage" type="success" :closable="false"
+                        style="margin-bottom: 15px;" />
+                </transition>
+
+                <!-- 错误提示 -->
+                <transition name="fade">
+                    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false"
+                        style="margin-bottom: 15px;" />
+                </transition>
+
+                <!-- 提交按钮 -->
+                <el-button native-type="submit" type="primary" :loading="isLoading"
+                    style="width: 100%; font-size: 16px;">
+                    {{ isLoading ? '请稍候...' : '登录 / 注册' }}
+                </el-button>
+            </el-form>
+        </el-card>
+    </el-container>
 </template>
 
 <script setup lang="ts">
@@ -29,6 +46,7 @@ const password = ref('')
 const errorMessage = ref('')
 const successMessage = ref('')
 const router = useRouter()
+const isLoading = ref(false)
 
 // 模拟本地存储的用户列表（实际应调用 API）
 const getUsers = (): Record<string, string> => {
@@ -43,61 +61,66 @@ const saveUser = (username: string, password: string) => {
 }
 
 const handleSubmit = () => {
-    const users = getUsers()
+    isLoading.value = true
+    errorMessage.value = ''
+    successMessage.value = ''
 
-    if (!username.value || !password.value) {
-        errorMessage.value = '请输入用户名和密码'
-        successMessage.value = ''
-        return
-    }
+    setTimeout(() => {
+        const users = getUsers()
 
-    if (users[username.value]) {
-        // 用户已存在，验证密码
-        if (users[username.value] === password.value) {
-            successMessage.value = '登录成功'
-            errorMessage.value = ''
+        if (!username.value || !password.value) {
+            errorMessage.value = '请输入用户名和密码'
+        } else if (users[username.value]) {
+            if (users[username.value] === password.value) {
+                successMessage.value = '登录成功'
+                setTimeout(() => {
+                    router.push('/')
+                }, 1000)
+            } else {
+                errorMessage.value = '密码错误，请重新输入'
+            }
+        } else {
+            saveUser(username.value, password.value)
+            successMessage.value = '用户不存在，已为您自动注册'
             setTimeout(() => {
                 router.push('/')
-            }, 1000)
-        } else {
-            errorMessage.value = '密码错误，请重新输入'
-            successMessage.value = ''
+            }, 1500)
         }
-    } else {
-        // 用户不存在，自动注册
-        saveUser(username.value, password.value)
-        successMessage.value = '用户不存在，已为您自动注册'
-        errorMessage.value = ''
 
-        setTimeout(() => {
-            router.push('/')
-        }, 1500)
-    }
+        isLoading.value = false
+    }, 800)
 }
 </script>
 
 <style scoped>
-.login-container {
-    max-width: 400px;
-    margin: 100px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.login-background {
+    height: 100vh;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    justify-content: center;
+    align-items: center;
 }
 
-.error-message {
-    color: red;
-    font-size: 14px;
-    margin-top: 10px;
+.login-card {
+    width: 420px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 16px;
+    background-color: #ffffffcc;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
 }
 
-.success-message {
-    color: green;
-    font-size: 14px;
-    margin-top: 10px;
+.login-card:hover {
+    transform: translateY(-5px);
 }
 
-button {
-    margin-top: 10px;
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
 }
 </style>

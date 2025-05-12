@@ -2,7 +2,7 @@
     <el-menu :default-active="activeIndex" class="top-nav el-menu-demo" mode="horizontal" :ellipsis="false"
         @select="handleSelect">
         <el-menu-item index="0" class="logo">
-            <img src="https://7n.bczcdn.com/static/static/icon-bcz.8a81c5ce.png" alt="Element logo" />
+            <img src="/baicizhan.png" alt="Element logo" />
         </el-menu-item>
         <el-menu-item index="1" class="nav-item">关于我们</el-menu-item>
         <el-sub-menu index="2" class="nav-item">
@@ -82,10 +82,10 @@ const goToLogin = () => {
     font-size: 18px;
     color: #333;
     transition: color 0.3s ease;
-    padding: 15px 20px;
     font-weight: 600;
     line-height: 50px;
     /* 确保菜单项的高度一致 */
+    height: 100%;
 }
 
 .nav-item:hover {
@@ -94,8 +94,6 @@ const goToLogin = () => {
 }
 
 .nav-title {
-    margin-top: 11px;
-    margin-bottom: 14px;
     font-weight: 600;
     font-size: 18px;
 }

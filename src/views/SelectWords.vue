@@ -125,8 +125,13 @@ const selectLevel = (level: { name: string; label: string }) => {
 
 <style scoped>
 .select-words-container {
-  padding: 40px;
+  display: flex;
+  align-items: center;
+  height: 100%;
   background-color: #f5f7fa;
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .box-card {

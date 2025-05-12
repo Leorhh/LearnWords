@@ -155,7 +155,6 @@ const endDrag = () => {
     width: 100%;
     background-color: #f9f9f9;
     color: #333;
-    padding: 40px 20px;
     overflow: hidden;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -243,7 +242,7 @@ const endDrag = () => {
     transition: transform 0.3s ease;
 }
 
-.nav-button:hover .nav-button-icon {
+.nav-button:hover {
     transform: rotate(360deg);
 }
 </style>

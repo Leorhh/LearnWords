@@ -8,8 +8,16 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import axios from 'axios'
 
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+
+
 // 创建应用实例
 const app = createApp(App)
+
+// 注册icon组件
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
 
 // 配置 axios 全局默认设置
 axios.defaults.baseURL = 'http://127.0.0.1:5000' // 设置后端基础地址

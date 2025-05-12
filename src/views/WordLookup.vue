@@ -117,14 +117,9 @@ const translate = async () => {
 
     const data = response.data
 
-<<<<<<< Updated upstream
-    if (data.success) {
-      result.value = data.result
-=======
     if (data.translate) {
       result.value = { word: data.translate };
       /* append search query to history */
->>>>>>> Stashed changes
       if (!history.value.includes(trimmedWord)) {
         history.value.unshift(trimmedWord)
         if (history.value.length > 10) history.value.pop()

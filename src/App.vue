@@ -16,5 +16,7 @@ import { RouterView } from 'vue-router'
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  /* make it fullscreen */
+  height: 100%;
 }
 </style>
